@@ -9,11 +9,12 @@ public class StringCalculator {
 
         String[] num_array;
         if (numbers.startsWith("//")) {
-            String delimiter = numbers.substring(2, 3);
-            String num_string = numbers.substring(4);
+            int newline_index = numbers.indexOf("\n");
+            String delimiter = numbers.substring(2, newline_index);
+            String num_string = numbers.substring(newline_index + 1);
 
             //turn the delimiter into a regex expression
-            num_array = num_string.split(Pattern.quote(delimiter));
+            num_array = num_string.split(Pattern.quote("" + delimiter.charAt(0)));
         } else {
             num_array = numbers.split(",");
         }
@@ -24,11 +25,12 @@ public class StringCalculator {
             s = s.replace("\n", "");
             int number = Integer.parseInt(s);
             if (number < 0) {
-                negative += "|" + number +"|";
-            } else {
+                negative += "|" + number + "|";
+            } else if ( number < 1000) {
                 sum += number;
             }
         }
+
         if (negative.length() > 0) {
             throw new NumberFormatException("Negatives not allowed: Here are the numbers:" + negative);
         }
@@ -113,6 +115,32 @@ public class StringCalculator {
             System.out.println(e.getMessage());
         }
 
+        //Bonus 1
+        //Test case 1
+        expected = 10;
+        result = calculator.Add("//@\n2@10000@8");
+        if (result != expected) {
+            System.out.println("error in the return value!");
+            failed_count++;
+        }
+
+        //Test case 2
+        expected = 2;
+        result = calculator.Add("2,1001");
+        if (result != expected) {
+            System.out.println("error in the return value!");
+            failed_count++;
+        }
+
+        //Bonus 2
+
+        //Test case 1
+        expected = 12;
+        result = calculator.Add("//@@@@@@\n2@2@8");
+        if (result != expected) {
+            System.out.println("error in the return value!");
+            failed_count++;
+        }
         System.out.println("Test completed: " + failed_count + " failed cases");
     }
 }
