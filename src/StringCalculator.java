@@ -158,5 +158,16 @@ public class StringCalculator {
             System.out.println("error in the return value!");
             failed_count++;
         }
+
+
+
+        //Bonus 4
+        //Test case
+        expected = 6;
+        result = calculator.Add("//$$$$,@@@@@@@@\n1$$$$2@@@@@@@@3");
+        if (result != expected) {
+            System.out.println("error in the return value!");
+            failed_count++;
+        }
     }
 }
