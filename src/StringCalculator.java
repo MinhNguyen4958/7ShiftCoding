@@ -17,12 +17,20 @@ public class StringCalculator {
         } else {
             num_array = numbers.split(",");
         }
+
         int sum = 0;
         String negative = "";
         for (String s : num_array) {
             s = s.replace("\n", "");
             int number = Integer.parseInt(s);
-            sum += number;
+            if (number < 0) {
+                negative += "|" + number +"|";
+            } else {
+                sum += number;
+            }
+        }
+        if (negative.length() > 0) {
+            throw new NumberFormatException("Negatives not allowed: Here are the numbers:" + negative);
         }
         return sum;
     }
@@ -86,6 +94,23 @@ public class StringCalculator {
         if (result != expected) {
             System.out.println("error in the return value!");
             failed_count++;
+        }
+
+        //Request 4
+
+        //Test case 1
+        try {
+            // Expect an exception throw here
+            result = calculator.Add("//@\n2@-2@8");
+        } catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+        }
+
+        //Test case 2
+        try {
+            result = calculator.Add("//@\n-1@-2@-3@-4");
+        } catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
         }
 
         System.out.println("Test completed: " + failed_count + " failed cases");
