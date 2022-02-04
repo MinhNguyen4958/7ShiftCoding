@@ -13,8 +13,16 @@ public class StringCalculator {
             String delimiter = numbers.substring(2, newline_index);
             String num_string = numbers.substring(newline_index + 1);
 
-            //turn the delimiter into a regex expression
-            num_array = num_string.split(Pattern.quote(delimiter));
+            String[] delim_array = delimiter.split(",");
+            StringBuilder regex = new StringBuilder();
+            for (String delim : delim_array) {
+                regex.append(Pattern.quote(delim)).append("|");
+            }
+            //delete the dangling |
+            regex.deleteCharAt(regex.length() - 1);
+
+            //turn the delimiter into a regex literal
+            num_array = num_string.split(regex.toString());
         } else {
             num_array = numbers.split(",");
         }
@@ -118,7 +126,7 @@ public class StringCalculator {
         //Bonus 1
         //Test case 1
         expected = 10;
-        result = calculator.Add("//@\n2@10000@8");
+        result = calculator.Add("//a\n2a10000a8");
         if (result != expected) {
             System.out.println("error in the return value!");
             failed_count++;
@@ -133,8 +141,7 @@ public class StringCalculator {
         }
 
         //Bonus 2
-
-        //Test case 1
+        //Test case
         expected = 12;
         result = calculator.Add("//@@@@@@\n2@@@@@@2@@@@@@8");
         if (result != expected) {
@@ -142,5 +149,14 @@ public class StringCalculator {
             failed_count++;
         }
         System.out.println("Test completed: " + failed_count + " failed cases");
+
+        //Bonus 3
+        // Test case
+        expected = 6;
+        result = calculator.Add("//$,@\n1$2@3");
+        if (result != expected) {
+            System.out.println("error in the return value!");
+            failed_count++;
+        }
     }
 }
