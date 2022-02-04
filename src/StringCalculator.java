@@ -14,7 +14,7 @@ public class StringCalculator {
             String num_string = numbers.substring(newline_index + 1);
 
             //turn the delimiter into a regex expression
-            num_array = num_string.split(Pattern.quote("" + delimiter.charAt(0)));
+            num_array = num_string.split(Pattern.quote(delimiter));
         } else {
             num_array = numbers.split(",");
         }
@@ -136,7 +136,7 @@ public class StringCalculator {
 
         //Test case 1
         expected = 12;
-        result = calculator.Add("//@@@@@@\n2@2@8");
+        result = calculator.Add("//@@@@@@\n2@@@@@@2@@@@@@8");
         if (result != expected) {
             System.out.println("error in the return value!");
             failed_count++;
